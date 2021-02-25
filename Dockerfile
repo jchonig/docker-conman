@@ -10,7 +10,9 @@ RUN \
 	echo "**** install packages ****" && \
 	apt-get update && \
 	apt-get install -y --no-install-recommends \
-		conman && \
+		conman \
+		cron \
+		logrotate && \
 	echo "**** clean up ****" && \
 	apt-get clean && \
 	apt-get autoremove && \

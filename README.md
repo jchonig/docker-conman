@@ -52,5 +52,4 @@ services:
   + Map any serial devices into the container
 
 # TODO
-  + [ ] Add logrotate (and cron)
-    + Pass selected parameters as ENV variables
+  + [ ] Pass logrotate parameters as ENV variables?
