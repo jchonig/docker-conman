@@ -52,4 +52,5 @@ services:
   + Map any serial devices into the container
 
 # TODO
-  + [ ] Figure out permissions for devices
+  + [ ] Add logrotate (and cron)
+    + Pass selected parameters as ENV variables
