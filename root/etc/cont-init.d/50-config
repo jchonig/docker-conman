@@ -15,6 +15,8 @@ print_vars () {
 
 print_vars
 
+usermod -a -G dialout abc
+
 if [ ! -f /config/conman.conf ]; then
     cp /etc/conman.conf /config/
 fi
