@@ -13,7 +13,7 @@ print_vars () {
     echo "    TZ=${TZ}"
 }
 
-print_vars
+print_vars init-conman
 
 usermod -a -G dialout abc
 
@@ -21,27 +21,7 @@ if [ ! -f /config/conman.conf ]; then
     cp /etc/conman.conf /config/
 fi
 
-cat > /etc/logrotate.d/conman <<EOF
-##
-# ConMan Logrotate Configuration
-##
-
-/logs/* {
-   compress
-   missingok
-   nocopytruncate
-   nocreate
-   nodelaycompress
-   nomail
-   notifempty
-   rotate 4
-   sharedscripts
-   size=5M
-   weekly
-   postrotate
-     /usr/bin/kill -HUP $(cat /var/run/conmand.pid)
-   endscript
-}
-EOF
-
 chown -R abc:abc /config /logs
+
+mkdir -p /var/run/conmand
+
