@@ -17,11 +17,13 @@ print_vars init-conman
 
 usermod -a -G dialout abc
 
+# Make a place for our pid file
+mkdir /var/run/conmand
+chown -R abc:abc /var/run/conmand
+
+# Make sure we have a config file and it points at the correct place for the pid file
 if [ ! -f /config/conman.conf ]; then
     cp /etc/conman.conf /config/
 fi
 
 chown -R abc:abc /config /logs
-
-mkdir -p /var/run/conmand
-

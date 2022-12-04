@@ -15,6 +15,6 @@
    size=5M
    weekly
    postrotate
-     /usr/bin/kill -HUP $(cat /var/run/conmand.pid)
+     /usr/bin/kill -HUP $(cat /var/run/conmand/pid)
    endscript
 }
