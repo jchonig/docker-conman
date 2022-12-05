@@ -23,8 +23,7 @@ chown -R abc:abc /var/run/conmand
 
 # Make sure we have a config file and it points at the correct place for the pid file
 if [ ! -f /config/conman.conf ]; then
-    cp /etc/conman.conf /config/
+    cp /usr/local/etc/conman.conf /config/
 fi
-sed -i -re '/server pidfile/s%^(# )?(server pidfile=).*$%\2"/var/run/conmand/pid"%' /config/conman.conf
 
 chown -R abc:abc /config /logs
