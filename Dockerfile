@@ -12,6 +12,7 @@ RUN \
 	apt-get install -y --no-install-recommends \
 		conman \
 		cron \
+		inotify-tools \
 		logrotate && \
 	echo "**** clean up ****" && \
 	apt-get clean && \

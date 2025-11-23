@@ -1,0 +1,48 @@
+#!/usr/bin/with-contenv bash
+
+CONFIG_FILE=/config/conman.conf
+
+devices=()
+
+server () {
+    :
+}
+
+global () {
+    :
+}
+
+console () {
+    local dev
+
+    devices=()
+
+    while [ $# -gt 0 ]; do
+	dev=
+	case ${1} in
+	    dev=*)
+		dev="${1#dev=}"
+		;;
+	    dev)
+		shift
+		dev="${1}"
+		;;
+	esac
+	if [[ $dev == /dev* ]]; then
+	    devices+=("${dev}")
+	fi
+	shift
+    done
+}
+
+sleep 5
+
+while true; do
+    echo "Parsing config file"
+    . ${CONFIG_FILE}
+    echo "Waiting for changes to ${CONFIG_FILE} ${devices[@]}"
+    inotifywait -s -q -r ${CONFIG_FILE} ${devices[@]} -e attrib,modify,move,create,delete
+    echo "Restarting conman"
+    s6-svc -r /run/service/conman
+    echo "Done"
+done

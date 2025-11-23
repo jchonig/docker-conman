@@ -6,11 +6,10 @@ A docker container to run [dun/conmain](https://github.com/dun/conman).
 
 ### docker-compose
 
-Compatible with docker-compose v3 schemas.
+Compatible with docker-compose
 
 ```
 ---
-version: "3"
 services:
   conman:
     image: jchonig/conman
@@ -19,15 +18,19 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
+    privileged: true	# When mounting /dev
     volumes:
 	  - PATHTO/config:/config
 	  - PATHTO/logs:/logs
+      - /dev:/dev		# Optional
+      - /run/udev:/run/udev:ro # Optional
 	expose:
 	  - 7980
     devices:
       - /dev/ttyUSB00:/dev/ttyUSB00
     restart: unless-stopped
 ```
+
 
 # Parameters
 
@@ -41,15 +44,18 @@ services:
 
 ## Volume Mappings (-v)
 
-| Volume  | Function       |
-| ------  | --------       |
-| /config | This directory will contain conman.conf |
+| Volume    | Function                                                             |
+|-----------|----------------------------------------------------------------------|
+| /config   | This directory will contain conman.conf                              |
+| /logs     | This directory is for storing logfiles                               |
+| /dev      | For direct access to device entries (if they don't exist at startup) |
+| /run/udev | ""                                                                      |
 
 # Application Setup
 
   + If /config/conman.conf does not exist, the default configuration
     file will be installed
-  + Map any serial devices into the container
+  + Map any serial devices into the container or mount /dev into the container
 
 # TODO
   + [ ] Pass logrotate parameters as ENV variables?
