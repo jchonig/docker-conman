@@ -41,8 +41,21 @@ while true; do
     echo "Parsing config file"
     . ${CONFIG_FILE}
     echo "Waiting for changes to ${CONFIG_FILE} ${devices[@]}"
-    inotifywait -s -q -r ${CONFIG_FILE} ${devices[@]} -e attrib,modify,move,create,delete
-    echo "Restarting conman"
-    s6-svc -r /run/service/conman
+    inotifywait -m -s -q \
+		-e attrib,modify,move,create,delete \
+		--format '%w|%f|%e' \
+		${CONFIG_FILE} ${devices[@]} |
+	while IFS='|' read -r dir file event; do
+	    if [ "${event}" = "MODIFY" -a -L "${dir}${file}" ]; then
+		echo "Ignoring change to symlink"
+		continue
+            fi
+	    echo "Restarting conman"
+	    s6-svc -r /run/service/conman
+	    if [ "${dir}${file}" = "${CONFIG_FILE}" ]; then
+		echo "Config file changed: $CONFIG_FILE"
+            	break
+            fi
+	done
     echo "Done"
 done
