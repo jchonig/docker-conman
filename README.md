@@ -2,6 +2,8 @@
 
 A docker container to run [dun/conmain](https://github.com/dun/conman).
 
+Image hosted at: `ghcr.io/jchonig/conman`
+
 # Usage
 
 ### docker-compose
@@ -12,7 +14,7 @@ Compatible with docker-compose
 ---
 services:
   conman:
-    image: jchonig/conman
+    image: ghcr.io/jchonig/conman
     container_name: conman
     environment:
       - PUID=1000
